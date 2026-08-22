@@ -1,0 +1,130 @@
+{
+  "entities": {
+    "MaintenanceRequest": {
+      "title": "MaintenanceRequest",
+      "description": "Maintenance ticket submitted by residents or managers",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "unit": { "type": "string", "maxLength": 64 },
+        "issue": { "type": "string", "maxLength": 256 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "priority": { "type": "string", "enum": ["Low", "Medium", "High"] },
+        "status": { "type": "string", "enum": ["Pending", "In Progress", "Resolved"] },
+        "isEmergency": { "type": "boolean" },
+        "photoUrl": { "type": "string", "maxLength": 500 },
+        "date": { "type": "string", "maxLength": 64 },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "unit", "issue", "priority", "status", "date"]
+    },
+    "Resident": {
+      "title": "Resident",
+      "description": "Resident tenant records and occupancy status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 128 },
+        "room": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "enum": ["Paid", "Overdue", "Pending"] },
+        "balance": { "type": "number" },
+        "avatarUrl": { "type": "string", "maxLength": 500 },
+        "phone": { "type": "string", "maxLength": 64 },
+        "emergencyContactName": { "type": "string", "maxLength": 128 },
+        "emergencyContactPhone": { "type": "string", "maxLength": 64 },
+        "occupation": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "name", "email", "room", "status", "balance"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Financial ledger transactions including rent, repairs, and utilities",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 256 },
+        "amount": { "type": "number" },
+        "date": { "type": "string", "maxLength": 64 },
+        "isIncome": { "type": "boolean" },
+        "unitId": { "type": "string", "maxLength": 64 },
+        "residentId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "title", "amount", "date", "isIncome"]
+    },
+    "UnitOccupancy": {
+      "title": "UnitOccupancy",
+      "description": "Room units, pricing, and occupancy status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "unitNumber": { "type": "string", "maxLength": 64 },
+        "type": { "type": "string", "maxLength": 128 },
+        "price": { "type": "number" },
+        "isOccupied": { "type": "boolean" },
+        "currentResidentId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "unitNumber", "type", "price", "isOccupied"]
+    },
+    "TokenPurchase": {
+      "title": "TokenPurchase",
+      "description": "Electricity / utility token purchases",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "unit": { "type": "string", "maxLength": 64 },
+        "date": { "type": "string", "maxLength": 64 },
+        "tokenNumber": { "type": "string", "maxLength": 64 },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["Success", "Pending", "Failed"] }
+      },
+      "required": ["id", "unit", "date", "tokenNumber", "amount", "status"]
+    },
+    "PotentialTenant": {
+      "title": "PotentialTenant",
+      "description": "Inquiry and prospective tenant leads",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "phone": { "type": "string", "maxLength": 64 },
+        "email": { "type": "string", "maxLength": 128 },
+        "source": { "type": "string", "maxLength": 64 },
+        "sourceDetails": { "type": "string", "maxLength": 256 },
+        "targetUnit": { "type": "string", "maxLength": 64 },
+        "budget": { "type": "number" },
+        "expectedMoveInDate": { "type": "string", "maxLength": 64 },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "status": { "type": "string", "enum": ["New", "Viewing Scheduled", "Follow Up", "Converted", "Cancelled"] },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "name", "phone", "source", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/maintenanceRequests/{requestId}": {
+      "schema": { "$ref": "#/entities/MaintenanceRequest" },
+      "description": "Collection of maintenance requests and status updates"
+    },
+    "/residents/{residentId}": {
+      "schema": { "$ref": "#/entities/Resident" },
+      "description": "Collection of property residents"
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Collection of revenue and expense transactions"
+    },
+    "/units/{unitId}": {
+      "schema": { "$ref": "#/entities/UnitOccupancy" },
+      "description": "Collection of property units and room occupancy states"
+    },
+    "/tokenPurchases/{purchaseId}": {
+      "schema": { "$ref": "#/entities/TokenPurchase" },
+      "description": "Collection of prepaid utility and electricity token history"
+    },
+    "/potentialTenants/{tenantId}": {
+      "schema": { "$ref": "#/entities/PotentialTenant" },
+      "description": "Collection of potential tenant leads and inquiry pipeline"
+    }
+  }
+}

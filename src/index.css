@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  --color-system-bg: #0A0F1E;
+  --color-dark-navy-primary: #4F46E5;
+  --color-dark-navy-secondary: #D97706;
+  --color-emerald-500: #10B981;
+  --color-dark-navy-bg: #0A0F1E;
+  --color-dark-navy-surface: #1E293B;
+
+  --color-light-navy-800: #1E3A8A;
+  --color-light-gold-500: #EAB308;
+  --color-light-sleek-bg: #F8FAFC;
+
+  --color-system-light-text: #E2E8F0;
+  --color-system-green: #10B981;
+  --color-system-orange: #F59E0B;
+  --color-system-red: #EF4444;
+  --color-system-gray: #334155;
+  --color-system-divider: rgba(255, 255, 255, 0.15);
+
+  --font-sf: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+@layer base {
+  :root {
+    --primary: #4F46E5;
+    --on-primary: #FFFFFF;
+    --primary-container: #EEF2FF;
+    --on-primary-container: #1E1B4B;
+
+    --secondary: #D97706;
+    --on-secondary: #FFFFFF;
+    --secondary-container: #FEF3C7;
+    --on-secondary-container: #451A03;
+
+    --tertiary: #10B981;
+    --on-tertiary: #FFFFFF;
+    --tertiary-container: #D1FAE5;
+    --on-tertiary-container: #064E3B;
+
+    --error: #EF4444;
+    --error-container: #FEE2E2;
+    --on-error-container: #7F1D1D;
+
+    --background: #F8FAFC;
+    --on-background: #0F172A;
+    --surface: #FFFFFF;
+    --on-surface: #0F172A;
+    --surface-variant: #F1F5F9;
+    --on-surface-variant: #475569;
+    --outline: #94A3B8;
+    --outline-variant: #E2E8F0;
+  }
+
+  .dark {
+    --primary: #4F46E5;
+    --on-primary: #FFFFFF;
+    --primary-container: #312E81;
+    --on-primary-container: #E0E7FF;
+
+    --secondary: #D97706;
+    --on-secondary: #FFFFFF;
+    --secondary-container: #78350F;
+    --on-secondary-container: #FEF3C7;
+
+    --tertiary: #10B981;
+    --on-tertiary: #042F2E;
+    --tertiary-container: #065F46;
+    --on-tertiary-container: #A7F3D0;
+
+    --error: #EF4444;
+    --error-container: #7F1D1D;
+    --on-error-container: #FECACA;
+
+    --background: #0A0F1E;
+    --on-background: #E2E8F0;
+    --surface: #1E293B;
+    --on-surface: #E2E8F0;
+    --surface-variant: #334155;
+    --on-surface-variant: #94A3B8;
+    --outline: #64748B;
+    --outline-variant: rgba(255, 255, 255, 0.15);
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+}
+
+/* Design System Typography Utilities */
+.text-h1 {
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+}
+
+.text-h2 {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 600;
+}
+
+.text-h3 {
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 500;
+}
+
+.text-body {
+  font-size: 16px;
+  line-height: 22px;
+  font-weight: 400;
+}

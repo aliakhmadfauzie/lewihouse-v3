@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Lewi House</string>
+    <string name="property_subtitle">Property Management Platform</string>
+    <string name="login_title">Lewi House</string>
+    <string name="login_tagline">Smart Living &amp; Estate Management</string>
+</resources>

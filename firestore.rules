@@ -1,0 +1,102 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global catch-all default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isValidMaintenance(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.unit is string && data.unit.size() <= 64 &&
+             data.issue is string && data.issue.size() <= 256 &&
+             data.priority in ['Low', 'Medium', 'High'] &&
+             data.status in ['Pending', 'In Progress', 'Resolved'];
+    }
+
+    function isValidResident(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.name is string && data.name.size() <= 128 &&
+             data.email is string && data.email.size() <= 128 &&
+             data.room is string && data.room.size() <= 64 &&
+             data.status in ['Paid', 'Overdue', 'Pending'] &&
+             data.balance is number;
+    }
+
+    function isValidTransaction(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.title is string && data.title.size() <= 256 &&
+             data.amount is number &&
+             data.date is string && data.date.size() <= 64 &&
+             data.isIncome is bool;
+    }
+
+    function isValidUnit(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.unitNumber is string && data.unitNumber.size() <= 64 &&
+             data.type is string && data.type.size() <= 128 &&
+             data.price is number &&
+             data.isOccupied is bool;
+    }
+
+    function isValidTokenPurchase(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.unit is string && data.unit.size() <= 64 &&
+             data.tokenNumber is string && data.tokenNumber.size() <= 64 &&
+             data.amount is number &&
+             data.status in ['Success', 'Pending', 'Failed'];
+    }
+
+    function isValidPotentialTenant(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.name is string && data.name.size() <= 128 &&
+             data.phone is string && data.phone.size() <= 64 &&
+             data.source is string && data.source.size() <= 64 &&
+             data.status in ['New', 'Viewing Scheduled', 'Follow Up', 'Converted', 'Cancelled'];
+    }
+
+    match /maintenanceRequests/{requestId} {
+      allow read: if true;
+      allow create, update: if isValidId(requestId) && isValidMaintenance(request.resource.data);
+      allow delete: if isValidId(requestId);
+    }
+
+    match /residents/{residentId} {
+      allow read: if true;
+      allow create, update: if isValidId(residentId) && isValidResident(request.resource.data);
+      allow delete: if isValidId(residentId);
+    }
+
+    match /transactions/{transactionId} {
+      allow read: if true;
+      allow create, update: if isValidId(transactionId) && isValidTransaction(request.resource.data);
+      allow delete: if isValidId(transactionId);
+    }
+
+    match /units/{unitId} {
+      allow read: if true;
+      allow create, update: if isValidId(unitId) && isValidUnit(request.resource.data);
+      allow delete: if isValidId(unitId);
+    }
+
+    match /tokenPurchases/{purchaseId} {
+      allow read: if true;
+      allow create, update: if isValidId(purchaseId) && isValidTokenPurchase(request.resource.data);
+      allow delete: if isValidId(purchaseId);
+    }
+
+    match /potentialTenants/{tenantId} {
+      allow read: if true;
+      allow create, update: if isValidId(tenantId) && isValidPotentialTenant(request.resource.data);
+      allow delete: if isValidId(tenantId);
+    }
+
+    match /test/{docId} {
+      allow read, write: if true;
+    }
+  }
+}
